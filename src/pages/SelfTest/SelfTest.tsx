@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import SelfTestSurveyPage from './SelfTestSurveyPage';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import SelfTestResult from './SelfTestResult';
 import { OrangeButton } from '../../styles/commonStyles';
 
 const SelfTest = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [testPageVisible, setTestPageVisible] = useState([true, false, false]);
 
   return (

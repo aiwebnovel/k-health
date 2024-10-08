@@ -1,5 +1,4 @@
 import { Button, Flex } from 'antd';
-import { ListLink } from '../../styles/commonStyles';
 import shortid from 'shortid';
 
 const MainPostList = () => {

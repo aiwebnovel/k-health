@@ -1,6 +1,5 @@
-import { Avatar, List, Space } from 'antd';
+import { List } from 'antd';
 // import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const PostBoard = () => {
@@ -15,12 +14,12 @@ const PostBoard = () => {
     time: '10. 17 18.07',
   }));
 
-  const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-    <Space>
-      {React.createElement(icon)}
-      {text}
-    </Space>
-  );
+  // const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
+  //   <Space>
+  //     {React.createElement(icon)}
+  //     {text}
+  //   </Space>
+  // );
 
   return (
     <section>
@@ -73,7 +72,7 @@ const PostBoard = () => {
                 title={<Link to={item.href}>{item.title}</Link>}
                 description={item.time}
               />
-              {item.content}
+              {/* {item.content} */}
             </List.Item>
           </Link>
         )}

@@ -1,6 +1,4 @@
-import { MdOutlineSubdirectoryArrowRight } from 'react-icons/md';
-import { Link, NavLink } from 'react-router-dom';
-import { ListLink } from '../../styles/commonStyles';
+import { Link } from 'react-router-dom';
 import { Button, List } from 'antd';
 
 const MainInfomationList = () => {

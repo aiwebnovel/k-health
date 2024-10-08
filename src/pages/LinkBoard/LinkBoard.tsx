@@ -1,5 +1,4 @@
 import { List } from 'antd';
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 const LinkBoard = () => {
@@ -64,7 +63,7 @@ const LinkBoard = () => {
                 title={<Link to={item.href}>{item.title}</Link>}
                 description={item.time}
               />
-              {item.content}
+              {/* {item.content} */}
             </List.Item>
           </Link>
         )}

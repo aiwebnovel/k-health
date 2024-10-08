@@ -1,11 +1,4 @@
-import {
-  Alert,
-  message,
-  notification,
-  Radio,
-  RadioChangeEvent,
-  Space,
-} from 'antd';
+import { notification, Radio, Space } from 'antd';
 import { useRef, useState } from 'react';
 import { selfTestData } from '../../constant/selfTestData';
 import { useSelfTestKeyStore } from '../../store';
@@ -21,7 +14,7 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
     new Array(selfTestData.length).fill(null),
   );
 
-  const checkeBoxRefs = useRef([]);
+  const checkeBoxRefs = useRef<HTMLDivElement[]>([]);
 
   const onChange = (value, index) => {
     testTotal[index] = value;
@@ -44,7 +37,6 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
       window.scrollBy({
         top: checkeBoxRefs.current[unCheckedBoxIndex].getBoundingClientRect()
           .top,
-
         behavior: 'smooth',
       });
       return;
@@ -94,7 +86,7 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
               display: 'flex',
               flexDirection: 'column',
             }}
-            ref={(el) => (checkeBoxRefs.current[index] = el)}
+            ref={(el) => (checkeBoxRefs.current[index] = el!)}
           >
             <h3
               style={{
