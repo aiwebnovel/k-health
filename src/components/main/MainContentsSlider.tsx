@@ -6,10 +6,13 @@ const MainContentsSlider = () => {
     console.log(currentSlide);
   };
   return (
-    <section>
+    <section style={{ paddingTop: '25px' }}>
       <Carousel afterChange={onChange}>
         <Link to="/self_test">
-          <img src="/slide/self_test.png" />
+          <img
+            src="/slide/self_test.png"
+            style={{ margin: '0 auto', borderRadius: '10px' }}
+          />
         </Link>
       </Carousel>
     </section>

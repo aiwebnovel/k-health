@@ -10,9 +10,9 @@ export const ListLink = styled(NavLink)`
   text-decoration: none;
 `;
 
-export const OrangeButton = styled.button`
-  background-color: #f55729;
-  color: var(--white-color-400);
+export const GreenButton = styled.button`
+  background-color: rgb(162, 238, 189);
+  /* color: var(--white-color-400); */
   font-size: 17px;
   font-weight: bold;
   padding: 7px 45px;

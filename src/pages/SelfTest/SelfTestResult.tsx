@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { selfTestResultData } from '../../constant/selfTestData';
 import { useSelfTestKeyStore } from '../../store';
-import { OrangeButton } from '../../styles/commonStyles';
+import { GreenButton } from '../../styles/commonStyles';
 
 const SelfTestResult = () => {
   const navigate = useNavigate();
@@ -10,7 +10,9 @@ const SelfTestResult = () => {
   );
 
   return (
-    <section>
+    <section
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+    >
       <h1
         style={{
           textAlign: 'center',
@@ -50,11 +52,11 @@ const SelfTestResult = () => {
           justifyContent: 'center',
         }}
       >
-        <OrangeButton
+        <GreenButton
           onClick={() => {
             navigate('/');
           }}
-        >{`${selfTestResultData[selfTestResultKey].title} 정보 보기`}</OrangeButton>
+        >{`${selfTestResultData[selfTestResultKey].title} 정보 보기`}</GreenButton>
       </div>
     </section>
   );

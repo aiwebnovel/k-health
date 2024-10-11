@@ -1,5 +1,14 @@
-import { List } from 'antd';
+import { Button, Flex, List, Modal, Space } from 'antd';
+import {
+  DeleteOutlined,
+  FormOutlined,
+  LikeOutlined,
+  MessageOutlined,
+  ScissorOutlined,
+  StarOutlined,
+} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 
 const LinkBoard = () => {
   const data = Array.from({ length: 23 }).map((_, i) => ({
@@ -12,17 +21,43 @@ const LinkBoard = () => {
     //   'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
     time: '10. 17 18.07',
   }));
+
+  const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
+    <Space>
+      {React.createElement(icon)}
+      {text}
+    </Space>
+  );
+
+  // const [open, setOpen] = useState(false);
+
+  // const showModal = () => {
+  //   setOpen(true);
+  // };
+
+  // const hideModal = () => {
+  //   setOpen(false);
+  // };
+
   return (
     <section>
+      <Flex
+        justify="flex-end"
+        style={{
+          padding: '15px 0',
+          borderBottom: '1px solid rgba(5, 5, 5, 0.06)',
+        }}
+      >
+        <Link to="/linkBoardWrite">
+          <Button>
+            <span>글쓰기</span>
+            <FormOutlined />
+          </Button>
+        </Link>
+      </Flex>
       <List
         itemLayout="vertical"
         size="large"
-        pagination={{
-          onChange: (page) => {
-            console.log(page);
-          },
-          pageSize: 10,
-        }}
         dataSource={data}
         // footer={
         //   <div>
@@ -30,26 +65,21 @@ const LinkBoard = () => {
         //   </div>
         // }
         renderItem={(item) => (
-          <Link to="/postBoard/1">
+          <a href="/postBoard/1" target="_blank">
             <List.Item
               key={item.title}
-              // actions={[
-              //   <IconText
-              //     icon={StarOutlined}
-              //     text="156"
-              //     key="list-vertical-star-o"
-              //   />,
-              //   <IconText
-              //     icon={LikeOutlined}
-              //     text="156"
-              //     key="list-vertical-like-o"
-              //   />,
-              //   <IconText
-              //     icon={MessageOutlined}
-              //     text="2"
-              //     key="list-vertical-message"
-              //   />,
-              // ]}
+              actions={[
+                <IconText
+                  icon={ScissorOutlined}
+                  text="수정"
+                  key="list-vertical-update-o"
+                />,
+                <IconText
+                  icon={DeleteOutlined}
+                  text="삭제"
+                  key="list-vertical-delete-o"
+                />,
+              ]}
               extra={
                 <img
                   width={272}
@@ -65,7 +95,7 @@ const LinkBoard = () => {
               />
               {/* {item.content} */}
             </List.Item>
-          </Link>
+          </a>
         )}
       />
     </section>

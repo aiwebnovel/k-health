@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, List } from 'antd';
 
 const MainInfomationList = () => {
@@ -25,7 +25,9 @@ const MainInfomationList = () => {
             }}
           >
             <span style={{ marginRight: '10px' }}>유용한 사상체질 정보들</span>{' '}
-            <Button>전체보기</Button>
+            <Button>
+              <Link to="/linkBoard">전체보기</Link>
+            </Button>
           </Link>
         }
         bordered

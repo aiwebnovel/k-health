@@ -1,6 +1,15 @@
-import { List } from 'antd';
+import { Button, Flex, List, Space } from 'antd';
 // import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import {
+  DeleteOutlined,
+  FormOutlined,
+  LikeOutlined,
+  MessageOutlined,
+  ScissorOutlined,
+  StarOutlined,
+} from '@ant-design/icons';
+import React from 'react';
 
 const PostBoard = () => {
   const data = Array.from({ length: 23 }).map((_, i) => ({
@@ -14,24 +23,30 @@ const PostBoard = () => {
     time: '10. 17 18.07',
   }));
 
-  // const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
-  //   <Space>
-  //     {React.createElement(icon)}
-  //     {text}
-  //   </Space>
-  // );
+  const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
+    <Space>
+      {React.createElement(icon)}
+      {text}
+    </Space>
+  );
 
   return (
     <section>
+      <Flex
+        justify="flex-end"
+        style={{
+          padding: '15px 0',
+          borderBottom: '1px solid rgba(5, 5, 5, 0.06)',
+        }}
+      >
+        <Button>
+          <span>글쓰기</span>
+          <FormOutlined />
+        </Button>
+      </Flex>
       <List
         itemLayout="vertical"
         size="large"
-        pagination={{
-          onChange: (page) => {
-            console.log(page);
-          },
-          pageSize: 10,
-        }}
         dataSource={data}
         // footer={
         //   <div>
@@ -42,23 +57,18 @@ const PostBoard = () => {
           <Link to="/postBoard/1">
             <List.Item
               key={item.title}
-              // actions={[
-              //   <IconText
-              //     icon={StarOutlined}
-              //     text="156"
-              //     key="list-vertical-star-o"
-              //   />,
-              //   <IconText
-              //     icon={LikeOutlined}
-              //     text="156"
-              //     key="list-vertical-like-o"
-              //   />,
-              //   <IconText
-              //     icon={MessageOutlined}
-              //     text="2"
-              //     key="list-vertical-message"
-              //   />,
-              // ]}
+              actions={[
+                <IconText
+                  icon={ScissorOutlined}
+                  text="수정"
+                  key="list-vertical-update-o"
+                />,
+                <IconText
+                  icon={DeleteOutlined}
+                  text="삭제"
+                  key="list-vertical-delete-o"
+                />,
+              ]}
               extra={
                 <img
                   width={272}

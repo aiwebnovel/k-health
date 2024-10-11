@@ -1,4 +1,5 @@
 import { Button, Flex } from 'antd';
+import { Link } from 'react-router-dom';
 import shortid from 'shortid';
 
 const MainPostList = () => {
@@ -54,8 +55,9 @@ const MainPostList = () => {
               <span style={{ marginRight: '10px', fontSize: '20px' }}>
                 {el.title}
               </span>
-
-              <Button style={{ borderRadius: '20px' }}>바로가기</Button>
+              <Button style={{ borderRadius: '20px' }}>
+                <Link to="/postBoard">바로가기</Link>
+              </Button>
             </button>
           );
         })}

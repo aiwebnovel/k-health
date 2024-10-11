@@ -3,6 +3,13 @@ import Main from './pages/Main';
 import SelfTest from './pages/SelfTest/SelfTest';
 import PostBoard from './pages/PostBoard/PostBoard';
 import LinkBoard from './pages/LinkBoard/LinkBoard';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { useEffect } from 'react';
+import AppLayout from './layouts/AppLayout';
+import PostBoardWrite from './pages/PostBoardWrite/PostBoardWrite';
+import LinkBoardWrite from './pages/LinkBoardWrite/LinkBoardWrite';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   //* 페이지
@@ -26,15 +33,27 @@ function App() {
   // 글쓰기 '/write'
 
   // chatbase 파일 넣기
+
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/admin_login" element={<></>} />
-        <Route path="/self_test" element={<SelfTest />} />
-        <Route path="/:linkBoard" element={<LinkBoard />} />
-        {/* <Route path="/:postBoard" element={<PostBoard />} /> */}
-        <Route path="/postBoard" element={<PostBoard />} />
+        <Route path="/" element={<AppLayout />}>
+          <Route path="" element={<Main />} />
+          <Route path="admin_login" element={<></>} />
+          <Route path="self_test" element={<SelfTest />} />
+          {/* <Route path="/:linkBoard" element={<LinkBoard />} /> */}
+          <Route path="linkBoard" element={<LinkBoard />} />
+          {/* <Route path="/:postBoard" element={<PostBoard />} /> */}
+          <Route path="postBoard" element={<PostBoard />} />
+          <Route path="linkBoardWrite" element={<LinkBoardWrite />} />
+          <Route path="postBoardWrite" element={<PostBoardWrite />} />
+        </Route>
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </>
   );

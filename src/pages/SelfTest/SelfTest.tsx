@@ -2,16 +2,21 @@ import { useState } from 'react';
 import SelfTestSurveyPage from './SelfTestSurveyPage';
 // import { useNavigate } from 'react-router-dom';
 import SelfTestResult from './SelfTestResult';
-import { OrangeButton } from '../../styles/commonStyles';
+import { GreenButton } from '../../styles/commonStyles';
 
 const SelfTest = () => {
   // const navigate = useNavigate();
   const [testPageVisible, setTestPageVisible] = useState([true, false, false]);
 
   return (
-    <>
+    <div style={{ maxWidth: '820px', padding: '0 30px', margin: '0 auto' }}>
       {testPageVisible[0] && (
-        <section style={{ textAlign: 'center' }}>
+        <section
+          style={{
+            textAlign: 'center',
+          }}
+          data-aos="fade-up"
+        >
           <h1
             style={{
               fontSize: '30px',
@@ -31,17 +36,13 @@ const SelfTest = () => {
             <br /> 본인의 체질을 제대로 파악할 수 있습니다.
           </p>
 
-          <OrangeButton
+          <GreenButton
             onClick={() => {
               setTestPageVisible([false, true, false]);
             }}
           >
             시작하기
-          </OrangeButton>
-
-          <p style={{ fontWeight: '700', fontSize: '14px' }}>
-            * 테스트는 무료이며 데이터는 저장되지 않습니다.
-          </p>
+          </GreenButton>
         </section>
       )}
       {testPageVisible[1] && (
@@ -49,7 +50,7 @@ const SelfTest = () => {
       )}
       {testPageVisible[2] && <SelfTestResult />}
       {/* <SelfTestResult /> */}
-    </>
+    </div>
   );
 };
 

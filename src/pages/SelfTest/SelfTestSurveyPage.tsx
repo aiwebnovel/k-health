@@ -2,7 +2,7 @@ import { notification, Radio, Space } from 'antd';
 import { useRef, useState } from 'react';
 import { selfTestData } from '../../constant/selfTestData';
 import { useSelfTestKeyStore } from '../../store';
-import { OrangeButton } from '../../styles/commonStyles';
+import { GreenButton } from '../../styles/commonStyles';
 import { CloseCircleFilled } from '@ant-design/icons';
 
 const SelfTestSurveyPage = ({ setTestPageVisible }) => {
@@ -66,7 +66,7 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
   };
 
   return (
-    <section style={{ padding: '10px' }}>
+    <section>
       <div>
         <h1 style={{ fontWeight: 'bold', fontSize: '20px', margin: '20px 0' }}>
           나의 사상체질 알아보기
@@ -119,7 +119,7 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
         );
       })}
       <section style={{ display: 'flex', justifyContent: 'center' }}>
-        <OrangeButton onClick={answerResult}>결과보기</OrangeButton>
+        <GreenButton onClick={answerResult}>결과보기</GreenButton>
       </section>
       {contextHolder}
     </section>
