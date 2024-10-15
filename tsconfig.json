@@ -18,10 +18,7 @@
     "baseUrl": ".",
     "noImplicitAny": false,
     "allowImportingTsExtensions": true,
-    "types": ["vite/client"],
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "types": ["vite/client"]
   },
   "include": ["**/*.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
