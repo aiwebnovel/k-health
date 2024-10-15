@@ -2,8 +2,8 @@ import { Carousel } from 'antd';
 import { Link } from 'react-router-dom';
 
 const MainContentsSlider = () => {
-  const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
+  const onChange = () => {
+    // console.log(currentSlide);
   };
   return (
     <section style={{ paddingTop: '25px' }}>

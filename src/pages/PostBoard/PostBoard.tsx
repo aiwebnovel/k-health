@@ -1,27 +1,67 @@
-import { Button, Flex, List, Space } from 'antd';
+import { Button, Flex, List, Modal, Space } from 'antd';
 // import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   DeleteOutlined,
   FormOutlined,
-  LikeOutlined,
-  MessageOutlined,
   ScissorOutlined,
-  StarOutlined,
 } from '@ant-design/icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useToast } from '@chakra-ui/react';
+import { myProfileStore } from '../../store/index';
+import { PostBoardTypes } from 'src/types';
 
 const PostBoard = () => {
-  const data = Array.from({ length: 23 }).map((_, i) => ({
-    href: 'https://ant.design',
-    title: `ant design part ${i}`,
-    // avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${i}`,
-    // description:
-    //   'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    // content:
-    //   'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    time: '10. 17 18.07',
-  }));
+  const { myProfile } = myProfileStore((state) => state);
+  const location = useLocation();
+  const [postList, setPostList] = useState<PostBoardTypes[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [targetId, setTargetId] = useState('');
+  const toast = useToast();
+
+  const showDeleteModal = (id) => () => {
+    setTargetId(id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteModalOk = async () => {
+    try {
+      await axios.delete(
+        `${import.meta.env.VITE_BACK_URL}${location.pathname}/${targetId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('login')}`,
+          },
+        },
+      );
+      const updatedPostList = postList.filter(
+        (el) => el.id !== parseInt(targetId),
+      );
+      setPostList(updatedPostList);
+      setIsDeleteModalOpen(false);
+
+      toast({
+        title: `글 삭제 완료`,
+        description: `글 삭제가 완료되었습니다.`,
+        status: 'success',
+        duration: 3000,
+        isClosable: true,
+        position: 'bottom-right',
+        containerStyle: {
+          marginBottom: '20px',
+          marginRight: '20px',
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleDeleteModalCancel = () => {
+    setIsDeleteModalOpen(false);
+  };
+  const navigate = useNavigate();
 
   const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
     <Space>
@@ -30,63 +70,115 @@ const PostBoard = () => {
     </Space>
   );
 
+  useEffect(() => {
+    const getPost = async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACK_URL}${location.pathname}/list`,
+      );
+
+      const newPostList = response.data.map((el) => {
+        return {
+          id: el.id,
+          href: `${location.pathname}/${el.id}`,
+          title: el.title,
+          time: el.createdAt,
+          image: el.image,
+        };
+      });
+
+      setPostList(newPostList);
+    };
+    getPost();
+  }, []);
+
+  const handleImageError = (e) => {
+    e.target.onerror = null; // 무한 루프 방지
+    e.target.src = '/images/no-image.jpg';
+  };
+
   return (
     <section>
       <Flex
         justify="flex-end"
         style={{
           padding: '15px 0',
-          borderBottom: '1px solid rgba(5, 5, 5, 0.06)',
+          borderTop: '1px solid rgba(5, 5, 5, 0.06)',
         }}
       >
-        <Button>
-          <span>글쓰기</span>
-          <FormOutlined />
-        </Button>
+        {myProfile && (
+          <Button
+            onClick={() => {
+              navigate(`${location.pathname}/write`);
+            }}
+          >
+            <span>글쓰기</span>
+            <FormOutlined />
+          </Button>
+        )}
       </Flex>
       <List
         itemLayout="vertical"
         size="large"
-        dataSource={data}
-        // footer={
-        //   <div>
-        //     <b>ant design</b> footer part
-        //   </div>
-        // }
+        dataSource={postList}
         renderItem={(item) => (
-          <Link to="/postBoard/1">
-            <List.Item
-              key={item.title}
-              actions={[
-                <IconText
-                  icon={ScissorOutlined}
-                  text="수정"
-                  key="list-vertical-update-o"
-                />,
-                <IconText
-                  icon={DeleteOutlined}
-                  text="삭제"
-                  key="list-vertical-delete-o"
-                />,
-              ]}
-              extra={
-                <img
-                  width={272}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
+          <List.Item
+            key={item.title}
+            actions={[
+              <>
+                {myProfile && (
+                  <>
+                    <Link to={`${location.pathname}/write?id=${item.id}`}>
+                      <IconText
+                        icon={ScissorOutlined}
+                        text="수정"
+                        key="list-vertical-update-o"
+                      />
+                    </Link>
+                    <button
+                      style={{ marginLeft: '10px' }}
+                      onClick={showDeleteModal(item.id)}
+                    >
+                      <IconText
+                        icon={DeleteOutlined}
+                        text="삭제"
+                        key="list-vertical-delete-o"
+                      />
+                    </button>
+                  </>
+                )}
+              </>,
+            ]}
+            extra={
+              item.image && (
+                <Link to={`${location.pathname}/${item.id}`}>
+                  <img
+                    width={'100px'}
+                    alt="logo"
+                    src={item.image}
+                    onError={handleImageError}
+                  />
+                </Link>
+              )
+            }
+          >
+            <List.Item.Meta
+              // avatar={<Avatar src={item.avatar} />}
+              title={
+                <Link to={`${location.pathname}/${item.id}`}>{item.title}</Link>
               }
-            >
-              <List.Item.Meta
-                // avatar={<Avatar src={item.avatar} />}
-                title={<Link to={item.href}>{item.title}</Link>}
-                description={item.time}
-              />
-              {/* {item.content} */}
-            </List.Item>
-          </Link>
+              description={item.createdAt}
+            />
+          </List.Item>
         )}
       />
+      <Modal
+        title="게시글 삭제"
+        open={isDeleteModalOpen}
+        onOk={handleDeleteModalOk}
+        onCancel={handleDeleteModalCancel}
+      >
+        <p>삭제 하시겠습니까?</p>
+      </Modal>
     </section>
   );
 };

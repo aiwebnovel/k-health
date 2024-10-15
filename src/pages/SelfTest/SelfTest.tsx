@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import SelfTestSurveyPage from './SelfTestSurveyPage';
-// import { useNavigate } from 'react-router-dom';
 import SelfTestResult from './SelfTestResult';
 import { GreenButton } from '../../styles/commonStyles';
 
 const SelfTest = () => {
-  // const navigate = useNavigate();
   const [testPageVisible, setTestPageVisible] = useState([true, false, false]);
 
   return (

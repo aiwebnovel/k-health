@@ -2,30 +2,46 @@ import { Button, Menu } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import { Link, NavLink } from 'react-router-dom';
 import shortid from 'shortid';
-
-// const items = new Array(3).fill(null).map((_, index) => ({
-//   key: String(index + 1),
-//   label: `nav ${index + 1}`,
-// }));
-
-const navigationItems = [
-  { key: shortid.generate(), label: <Link to="/self_test">체질 진단</Link> },
-  { key: shortid.generate(), label: <Link to="/linkBoard">체질 정보</Link> },
-  {
-    key: shortid.generate(),
-    label: (
-      <Button
-        onClick={() => {
-          // 로그아웃
-        }}
-      >
-        로그아웃
-      </Button>
-    ),
-  },
-];
+import { myProfileStore } from '../store/index';
+import { useToast } from '@chakra-ui/react';
+import { authService } from '../config/firebase';
 
 const AppHeader = () => {
+  const toast = useToast();
+  const { myProfile, updateMyProfile } = myProfileStore((state) => state);
+
+  const logout = async () => {
+    try {
+      await authService.signOut();
+
+      updateMyProfile(null);
+      localStorage.removeItem('login');
+
+      toast({
+        position: 'top-right',
+        title: '로그아웃',
+        description: `로그아웃 되었습니다.`,
+        status: 'info',
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const navigationItems = [
+    { key: shortid.generate(), label: <Link to="/self_test">체질 진단</Link> },
+    {
+      key: shortid.generate(),
+      label: <Link to="/link/information">체질 정보</Link>,
+    },
+    {
+      key: shortid.generate(),
+      label: myProfile && <Button onClick={logout}>로그아웃</Button>,
+    },
+  ];
+
   return (
     <Header
       style={{

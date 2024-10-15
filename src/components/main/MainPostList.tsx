@@ -8,25 +8,25 @@ const MainPostList = () => {
       id: shortid.generate(),
       title: '체질별 신체적 특성 이해하기',
       backgroundColor: '#A2EEBD',
-      link: '',
+      link: '/post/physical',
     },
     {
       id: shortid.generate(),
       title: '체질별 성격적 특징 이해하기',
       backgroundColor: '#7CD3EA',
-      link: '',
+      link: '/post/personality',
     },
     {
       id: shortid.generate(),
       title: '체칠별 건강사항 이해하기',
       backgroundColor: '#F6F7C5',
-      link: '',
+      link: '/post/health',
     },
     {
       id: shortid.generate(),
       title: '체질별 음식 이해하기',
       backgroundColor: '#F6D6D5',
-      link: '',
+      link: '/post/food',
     },
   ];
 
@@ -56,7 +56,7 @@ const MainPostList = () => {
                 {el.title}
               </span>
               <Button style={{ borderRadius: '20px' }}>
-                <Link to="/postBoard">바로가기</Link>
+                <Link to={el.link}>바로가기</Link>
               </Button>
             </button>
           );

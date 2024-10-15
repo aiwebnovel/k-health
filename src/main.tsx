@@ -4,21 +4,24 @@ import { BrowserRouter } from 'react-router-dom';
 import 'reset-css';
 import { GlobalStyles } from './styles/globalStyles.ts';
 import { ConfigProvider } from 'antd';
+import { ChakraProvider } from '@chakra-ui/react';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <GlobalStyles />
-    <ConfigProvider
-      theme={{
-        components: {
-          Radio: {
-            /* here is your component tokens */
-            radioSize: 20,
+    <ChakraProvider>
+      <GlobalStyles />
+      <ConfigProvider
+        theme={{
+          components: {
+            Radio: {
+              /* here is your component tokens */
+              radioSize: 20,
+            },
           },
-        },
-      }}
-    >
-      <App />
-    </ConfigProvider>
+        }}
+      >
+        <App />
+      </ConfigProvider>
+    </ChakraProvider>
   </BrowserRouter>,
 );

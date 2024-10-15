@@ -1,20 +1,30 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Button, List } from 'antd';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { LinkBoardTypes } from 'src/types';
 
 const MainInfomationList = () => {
-  const data = [
-    '사상.체질 유형 (mbti보다 더 정확하다 ㄷㄷ)소음인,태음인,소양인,태양인의 멸치탈출하는법)',
-    '사상체질 다이어트 한약으로 가능하다면? 부작용은 없을까? - 동감한의원',
-    '사상체질 다이어트 그 마지막 태양인 - 구의역한의원 동감',
-  ];
+  const [mainLinkList, setMainLinkList] = useState<LinkBoardTypes[]>([]);
+
+  useEffect(() => {
+    const getLinkBoardList = async () => {
+      const response = await axios.get(
+        `${import.meta.env.VITE_BACK_URL}/link/information/list`,
+      );
+
+      setMainLinkList(response.data.slice(0, 3));
+    };
+    getLinkBoardList();
+  }, []);
 
   return (
-    <section style={{ margin: '40px 0' }}>
+    <section style={{ padding: '40px 0' }}>
       <List
         size="large"
         header={
           <Link
-            to="/"
+            to="/link/information"
             style={{
               fontSize: '20px',
               textAlign: 'center',
@@ -26,13 +36,17 @@ const MainInfomationList = () => {
           >
             <span style={{ marginRight: '10px' }}>유용한 사상체질 정보들</span>{' '}
             <Button>
-              <Link to="/linkBoard">전체보기</Link>
+              <Link to="/link/information">전체보기</Link>
             </Button>
           </Link>
         }
         bordered
-        dataSource={data}
-        renderItem={(item) => <List.Item>{item}</List.Item>}
+        dataSource={mainLinkList}
+        renderItem={(item) => (
+          <a href={item.link} target="_blank" rel="noopener noreferrer">
+            <List.Item>{item.title}</List.Item>
+          </a>
+        )}
       />
     </section>
   );

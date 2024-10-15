@@ -1,4 +1,3 @@
-import { Descriptions } from 'antd';
 import shortid from 'shortid';
 
 export const selfTestData = [

@@ -2,25 +2,21 @@ import { Button, Flex, List, Modal, Space } from 'antd';
 import {
   DeleteOutlined,
   FormOutlined,
-  LikeOutlined,
-  MessageOutlined,
   ScissorOutlined,
-  StarOutlined,
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { myProfileStore } from '../../store/index';
+import { LinkBoardTypes } from 'src/types';
 
 const LinkBoard = () => {
-  const data = Array.from({ length: 23 }).map((_, i) => ({
-    href: 'https://ant.design',
-    title: `ant design part ${i}`,
-    // avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${i}`,
-    // description:
-    //   'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    // content:
-    //   'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-    time: '10. 17 18.07',
-  }));
+  const { myProfile } = myProfileStore((state) => state);
+  const params = useParams();
+  const location = useLocation();
+  const [linkList, setLinkList] = useState<LinkBoardTypes[]>([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [targetId, setTargetId] = useState<number | null>(null);
 
   const IconText = ({ icon, text }: { icon: React.FC; text: string }) => (
     <Space>
@@ -29,15 +25,41 @@ const LinkBoard = () => {
     </Space>
   );
 
-  // const [open, setOpen] = useState(false);
+  const showDeleteModal = (id) => () => {
+    setTargetId(id);
+    setIsDeleteModalOpen(true);
+  };
 
-  // const showModal = () => {
-  //   setOpen(true);
-  // };
+  const handleDeleteModalOk = async () => {
+    await axios.delete(
+      `${import.meta.env.VITE_BACK_URL}${location.pathname}/${targetId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('login')}`,
+        },
+      },
+    );
 
-  // const hideModal = () => {
-  //   setOpen(false);
-  // };
+    const updatedLinkList = linkList.filter((el) => el.id !== targetId);
+
+    setLinkList(updatedLinkList);
+
+    setIsDeleteModalOpen(false);
+  };
+
+  const handleDeleteModalCancel = () => {
+    setIsDeleteModalOpen(false);
+  };
+
+  useEffect(() => {
+    const getLinkList = async () => {
+      const getLinkBoardListResonse = await axios.get(
+        `${import.meta.env.VITE_BACK_URL}${location.pathname}/list`,
+      );
+      setLinkList(getLinkBoardListResonse.data);
+    };
+    getLinkList();
+  }, []);
 
   return (
     <section>
@@ -45,59 +67,81 @@ const LinkBoard = () => {
         justify="flex-end"
         style={{
           padding: '15px 0',
-          borderBottom: '1px solid rgba(5, 5, 5, 0.06)',
         }}
       >
-        <Link to="/linkBoardWrite">
-          <Button>
-            <span>글쓰기</span>
-            <FormOutlined />
-          </Button>
-        </Link>
+        {myProfile && (
+          <Link to={`/link/${params.linkPath}/write`}>
+            <Button>
+              <span>글쓰기</span>
+              <FormOutlined />
+            </Button>
+          </Link>
+        )}
       </Flex>
       <List
         itemLayout="vertical"
         size="large"
-        dataSource={data}
-        // footer={
-        //   <div>
-        //     <b>ant design</b> footer part
-        //   </div>
-        // }
+        dataSource={linkList}
         renderItem={(item) => (
-          <a href="/postBoard/1" target="_blank">
-            <List.Item
-              key={item.title}
-              actions={[
-                <IconText
-                  icon={ScissorOutlined}
-                  text="수정"
-                  key="list-vertical-update-o"
-                />,
-                <IconText
-                  icon={DeleteOutlined}
-                  text="삭제"
-                  key="list-vertical-delete-o"
-                />,
-              ]}
-              extra={
-                <img
-                  width={272}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
+          <List.Item
+            key={item.title}
+            actions={[
+              <>
+                {myProfile && (
+                  <>
+                    <Link to={`/link/${params.linkPath}/write?id=${item.id}`}>
+                      <IconText
+                        icon={ScissorOutlined}
+                        text="수정"
+                        key="list-vertical-update-o"
+                      />
+                    </Link>
+                    <button
+                      style={{ marginLeft: '10px' }}
+                      onClick={showDeleteModal(item.id)}
+                    >
+                      <IconText
+                        icon={DeleteOutlined}
+                        text="삭제"
+                        key="list-vertical-delete-o"
+                      />
+                    </button>
+                  </>
+                )}
+              </>,
+            ]}
+            extra={
+              item.image && (
+                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  <img
+                    style={{ width: '100px' }}
+                    width={272}
+                    alt="logo"
+                    src={item.image}
+                  />
+                </a>
+              )
+            }
+          >
+            <List.Item.Meta
+              title={
+                <a href={item.link} target="_blank" rel="noopener noreferrer">
+                  {item.title}
+                </a>
               }
-            >
-              <List.Item.Meta
-                // avatar={<Avatar src={item.avatar} />}
-                title={<Link to={item.href}>{item.title}</Link>}
-                description={item.time}
-              />
-              {/* {item.content} */}
-            </List.Item>
-          </a>
+              description={item.createdAt}
+            />
+          </List.Item>
         )}
       />
+      <Modal
+        title="게시글 삭제"
+        open={isDeleteModalOpen}
+        onOk={handleDeleteModalOk}
+        onCancel={handleDeleteModalCancel}
+      >
+        <p>삭제 하시겠습니까?</p>
+      </Modal>
     </section>
   );
 };
