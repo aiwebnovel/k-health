@@ -8,6 +8,20 @@
   </head>
   <body>
     <div id="root"></div>
+    <div id="message-container"></div>
+    <!-- 메시지 컨테이너 추가 -->
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      window.embeddedChatbotConfig = {
+        chatbotId: 'gJ07Xl-BefCpNQibpKhJi',
+        domain: 'www.chatbase.co',
+      };
+    </script>
+    <script
+      src="https://www.chatbase.co/embed.min.js"
+      chatbotId="gJ07Xl-BefCpNQibpKhJi"
+      domain="www.chatbase.co"
+      defer
+    ></script>
   </body>
 </html>
