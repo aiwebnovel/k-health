@@ -103,7 +103,8 @@ const AdminLogin = () => {
 
                   updateMyProfile(userCredential.user);
 
-                  const { accessToken } = userCredential.user;
+                  const { accessToken }: { accessToken: string } =
+                    userCredential.user;
 
                   localStorage.setItem('login', accessToken);
 
