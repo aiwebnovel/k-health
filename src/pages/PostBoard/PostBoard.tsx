@@ -1,6 +1,6 @@
 import { Button, Flex, List, Modal, Space } from 'antd';
 // import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
   DeleteOutlined,
   FormOutlined,
@@ -15,6 +15,7 @@ import { PostBoardTypes } from 'src/types';
 const PostBoard = () => {
   const { myProfile } = myProfileStore((state) => state);
   const location = useLocation();
+  const params = useParams();
   const [postList, setPostList] = useState<PostBoardTypes[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [targetId, setTargetId] = useState('');
@@ -28,7 +29,7 @@ const PostBoard = () => {
   const handleDeleteModalOk = async () => {
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BACK_URL}${location.pathname}/${targetId}`,
+        `${import.meta.env.VITE_BACK_URL}/${params.postPath}/${targetId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('login')}`,
@@ -73,13 +74,13 @@ const PostBoard = () => {
   useEffect(() => {
     const getPost = async () => {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACK_URL}${location.pathname}/list`,
+        `${import.meta.env.VITE_BACK_URL}/${params.postPath}/list`,
       );
 
       const newPostList = response.data.map((el) => {
         return {
           id: el.id,
-          href: `${location.pathname}/${el.id}`,
+          href: `${process.env.VITE_FRONT_URL}/post/${params.postPath}/${el.id}`,
           title: el.title,
           time: el.createdAt,
           image: el.image,
@@ -108,7 +109,9 @@ const PostBoard = () => {
         {myProfile && (
           <Button
             onClick={() => {
-              navigate(`${location.pathname}/write`);
+              navigate(
+                `${process.env.VITE_FRONT_URL}/post/${params.postPath}/write`,
+              );
             }}
           >
             <span>글쓰기</span>
@@ -127,7 +130,9 @@ const PostBoard = () => {
               <>
                 {myProfile && (
                   <>
-                    <Link to={`${location.pathname}/write?id=${item.id}`}>
+                    <Link
+                      to={`${process.env.VITE_FRONT_URL}/post/${params.postPath}/write?id=${item.id}`}
+                    >
                       <IconText
                         icon={ScissorOutlined}
                         text="수정"
@@ -150,7 +155,9 @@ const PostBoard = () => {
             ]}
             extra={
               item.image && (
-                <Link to={`${location.pathname}/${item.id}`}>
+                <Link
+                  to={`${process.env.VITE_FRONT_URL}/post/${params.postPath}/${item.id}`}
+                >
                   <img
                     width={'100px'}
                     alt="logo"
@@ -164,7 +171,11 @@ const PostBoard = () => {
             <List.Item.Meta
               // avatar={<Avatar src={item.avatar} />}
               title={
-                <Link to={`${location.pathname}/${item.id}`}>{item.title}</Link>
+                <Link
+                  to={`${process.env.VITE_FRONT_URL}/post/${params.postPath}/${item.id}`}
+                >
+                  {item.title}
+                </Link>
               }
               description={item.createdAt}
             />

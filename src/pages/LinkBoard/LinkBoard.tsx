@@ -32,7 +32,7 @@ const LinkBoard = () => {
 
   const handleDeleteModalOk = async () => {
     await axios.delete(
-      `${import.meta.env.VITE_BACK_URL}${location.pathname}/${targetId}`,
+      `${import.meta.env.VITE_BACK_URL}/link/${params.linkPath}/${targetId}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('login')}`,
@@ -54,7 +54,7 @@ const LinkBoard = () => {
   useEffect(() => {
     const getLinkList = async () => {
       const getLinkBoardListResonse = await axios.get(
-        `${import.meta.env.VITE_BACK_URL}${location.pathname}/list`,
+        `${import.meta.env.VITE_BACK_URL}/${params.linkPath}/list`,
       );
       setLinkList(getLinkBoardListResonse.data);
     };
