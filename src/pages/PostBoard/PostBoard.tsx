@@ -110,7 +110,7 @@ const PostBoard = () => {
           <Button
             onClick={() => {
               navigate(
-                `${process.env.VITE_FRONT_URL}/post/${params.postPath}/write`,
+                `/${process.env.VITE_FRONT_URL}/post/${params.postPath}/write`,
               );
             }}
           >
@@ -131,7 +131,7 @@ const PostBoard = () => {
                 {myProfile && (
                   <>
                     <Link
-                      to={`${process.env.VITE_FRONT_URL}/post/${params.postPath}/write?id=${item.id}`}
+                      to={`/${process.env.VITE_FRONT_URL}/post/${params.postPath}/write?id=${item.id}`}
                     >
                       <IconText
                         icon={ScissorOutlined}
@@ -156,7 +156,7 @@ const PostBoard = () => {
             extra={
               item.image && (
                 <Link
-                  to={`${process.env.VITE_FRONT_URL}/post/${params.postPath}/${item.id}`}
+                  to={`/${process.env.VITE_FRONT_URL}/post/${params.postPath}/${item.id}`}
                 >
                   <img
                     width={'100px'}
@@ -172,7 +172,7 @@ const PostBoard = () => {
               // avatar={<Avatar src={item.avatar} />}
               title={
                 <Link
-                  to={`${process.env.VITE_FRONT_URL}/post/${params.postPath}/${item.id}`}
+                  to={`/${process.env.VITE_FRONT_URL}/post/${params.postPath}/${item.id}`}
                 >
                   {item.title}
                 </Link>
