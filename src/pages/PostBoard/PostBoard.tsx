@@ -74,7 +74,7 @@ const PostBoard = () => {
   useEffect(() => {
     const getPost = async () => {
       const response = await axios.get(
-        `${import.meta.env.VITE_BACK_URL}/${params.postPath}/list`,
+        `${import.meta.env.VITE_BACK_URL}/post/${params.postPath}/list`,
       );
 
       const newPostList = response.data.map((el) => {

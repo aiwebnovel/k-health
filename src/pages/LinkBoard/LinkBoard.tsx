@@ -54,7 +54,7 @@ const LinkBoard = () => {
   useEffect(() => {
     const getLinkList = async () => {
       const getLinkBoardListResonse = await axios.get(
-        `${import.meta.env.VITE_BACK_URL}/${params.linkPath}/list`,
+        `${import.meta.env.VITE_BACK_URL}/link/${params.linkPath}/list`,
       );
       setLinkList(getLinkBoardListResonse.data);
     };
