@@ -80,7 +80,9 @@ const PostBoard = () => {
       const newPostList = response.data.map((el) => {
         return {
           id: el.id,
-          href: `${process.env.VITE_FRONT_URL}/post/${params.postPath}/${el.id}`,
+          href: `/${import.meta.env.VITE_FRONT_URL}/post/${params.postPath}/${
+            el.id
+          }`,
           title: el.title,
           time: el.createdAt,
           image: el.image,
@@ -109,9 +111,7 @@ const PostBoard = () => {
         {myProfile && (
           <Button
             onClick={() => {
-              navigate(
-                `/${process.env.VITE_FRONT_URL}/post/${params.postPath}/write`,
-              );
+              navigate(`/post/${params.postPath}/write`);
             }}
           >
             <span>글쓰기</span>
@@ -130,9 +130,7 @@ const PostBoard = () => {
               <>
                 {myProfile && (
                   <>
-                    <Link
-                      to={`/${process.env.VITE_FRONT_URL}/post/${params.postPath}/write?id=${item.id}`}
-                    >
+                    <Link to={`/post/${params.postPath}/write?id=${item.id}`}>
                       <IconText
                         icon={ScissorOutlined}
                         text="수정"
@@ -155,9 +153,7 @@ const PostBoard = () => {
             ]}
             extra={
               item.image && (
-                <Link
-                  to={`/${process.env.VITE_FRONT_URL}/post/${params.postPath}/${item.id}`}
-                >
+                <Link to={`/post/${params.postPath}/${item.id}`}>
                   <img
                     width={'100px'}
                     alt="logo"
@@ -171,9 +167,7 @@ const PostBoard = () => {
             <List.Item.Meta
               // avatar={<Avatar src={item.avatar} />}
               title={
-                <Link
-                  to={`/${process.env.VITE_FRONT_URL}/post/${params.postPath}/${item.id}`}
-                >
+                <Link to={`/post/${params.postPath}/${item.id}`}>
                   {item.title}
                 </Link>
               }
