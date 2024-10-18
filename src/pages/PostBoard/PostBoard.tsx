@@ -11,10 +11,10 @@ import axios from 'axios';
 import { useToast } from '@chakra-ui/react';
 import { myProfileStore } from '../../store/index';
 import { PostBoardTypes } from 'src/types';
+import dayjs from 'dayjs';
 
 const PostBoard = () => {
   const { myProfile } = myProfileStore((state) => state);
-  const location = useLocation();
   const params = useParams();
   const [postList, setPostList] = useState<PostBoardTypes[]>([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -77,19 +77,7 @@ const PostBoard = () => {
         `${import.meta.env.VITE_BACK_URL}/post/${params.postPath}/list`,
       );
 
-      const newPostList = response.data.map((el) => {
-        return {
-          id: el.id,
-          href: `/${import.meta.env.VITE_FRONT_URL}/post/${params.postPath}/${
-            el.id
-          }`,
-          title: el.title,
-          time: el.createdAt,
-          image: el.image,
-        };
-      });
-
-      setPostList(newPostList);
+      setPostList(response.data);
     };
     getPost();
   }, []);
@@ -171,7 +159,7 @@ const PostBoard = () => {
                   {item.title}
                 </Link>
               }
-              description={item.createdAt}
+              description={dayjs(item.createdAt).format('YYYY-MM-DD')}
             />
           </List.Item>
         )}

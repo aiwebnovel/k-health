@@ -12,14 +12,14 @@ import LinkBoardWrite from './pages/LinkBoardWrite/LinkBoardWrite';
 import NotFound from './pages/NotFound/NotFound';
 import PostDetail from './pages/PostDetail/PostDetail';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
 
 function App() {
-  //* 페이지
-
-  // chatbase 파일 넣기
-
   useEffect(() => {
     AOS.init();
+
+    dayjs.locale('ko');
   }, []);
 
   return (

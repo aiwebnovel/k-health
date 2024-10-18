@@ -44,7 +44,16 @@ const MainInfomationList = () => {
         dataSource={mainLinkList}
         renderItem={(item) => (
           <a href={item.link} target="_blank" rel="noopener noreferrer">
-            <List.Item>{item.title}</List.Item>
+            <List.Item
+              style={{
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+                wordBreak: 'break-all',
+              }}
+            >
+              {item.title}
+            </List.Item>
           </a>
         )}
       />

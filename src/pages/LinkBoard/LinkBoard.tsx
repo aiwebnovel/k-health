@@ -9,6 +9,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { myProfileStore } from '../../store/index';
 import { LinkBoardTypes } from 'src/types';
+import dayjs from 'dayjs';
 
 const LinkBoard = () => {
   const { myProfile } = myProfileStore((state) => state);
@@ -129,7 +130,7 @@ const LinkBoard = () => {
                   {item.title}
                 </a>
               }
-              description={item.createdAt}
+              description={dayjs(item.createdAt).format('YYYY-MM_DD')}
             />
           </List.Item>
         )}
