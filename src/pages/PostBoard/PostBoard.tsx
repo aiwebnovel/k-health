@@ -29,7 +29,7 @@ const PostBoard = () => {
   const handleDeleteModalOk = async () => {
     try {
       await axios.delete(
-        `${import.meta.env.VITE_BACK_URL}/${params.postPath}/${targetId}`,
+        `${import.meta.env.VITE_BACK_URL}/post/${params.postPath}/${targetId}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('login')}`,
