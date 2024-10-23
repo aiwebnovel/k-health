@@ -67,7 +67,7 @@ const AppHeader = () => {
           <img
             src="/images/logo.png"
             alt="demo-logo"
-            style={{ height: '64px' }}
+            style={{ height: '30px' }}
           />
         </NavLink>
 

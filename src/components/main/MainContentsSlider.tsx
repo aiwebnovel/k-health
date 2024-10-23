@@ -9,10 +9,23 @@ const MainContentsSlider = () => {
     <section style={{ paddingTop: '25px' }}>
       <Carousel afterChange={onChange}>
         <Link to="/self_test">
-          <img
-            src="/slide/self_test.png"
-            style={{ margin: '0 auto', borderRadius: '10px' }}
-          />
+          <div
+            style={{ position: 'relative', width: '500px', margin: '0 auto' }}
+          >
+            <img
+              src="/slide/self_test.png"
+              style={{ width: '500px', borderRadius: '10px' }}
+            />
+            <img
+              src="/images/logo-remove.png"
+              style={{
+                width: '120px',
+                position: 'absolute',
+                bottom: '-40px',
+                right: '10px',
+              }}
+            />
+          </div>
         </Link>
       </Carousel>
     </section>

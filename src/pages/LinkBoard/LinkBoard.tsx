@@ -130,7 +130,7 @@ const LinkBoard = () => {
                   {item.title}
                 </a>
               }
-              description={dayjs(item.createdAt).format('YYYY-MM_DD')}
+              description={dayjs(item.createdAt).format('YYYY-MM-DD')}
             />
           </List.Item>
         )}
