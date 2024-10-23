@@ -10,21 +10,14 @@ const MainContentsSlider = () => {
       <Carousel afterChange={onChange}>
         <Link to="/self_test">
           <div
-            style={{ position: 'relative', width: '500px', margin: '0 auto' }}
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              position: 'relative',
+              margin: '0 auto',
+            }}
           >
-            <img
-              src="/slide/self_test.png"
-              style={{ width: '500px', borderRadius: '10px' }}
-            />
-            <img
-              src="/images/logo-remove.png"
-              style={{
-                width: '120px',
-                position: 'absolute',
-                bottom: '-40px',
-                right: '10px',
-              }}
-            />
+            <img src="/slide/self_test.png" style={{ borderRadius: '10px' }} />
           </div>
         </Link>
       </Carousel>
