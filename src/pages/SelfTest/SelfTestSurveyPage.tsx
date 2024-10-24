@@ -1,17 +1,20 @@
 import { notification, Radio, Space } from 'antd';
 import { useRef, useState } from 'react';
-import { selfTestData } from '../../constant/selfTestData';
 import { useSelfTestKeyStore } from '../../store';
 import { GreenButton } from '../../styles/commonStyles';
 import { CloseCircleFilled } from '@ant-design/icons';
+import { useTranslation } from 'react-i18next';
 
 const SelfTestSurveyPage = ({ setTestPageVisible }) => {
+  const { t } = useTranslation();
+  const array = new Array(23).fill(0);
+  const optionArray = new Array(4).fill(0);
   const [api, contextHolder] = notification.useNotification();
   const updateSelfTestResultKey = useSelfTestKeyStore(
     (state) => state.updateSelfTestResultKey,
   );
   const [testTotal, setTestTotal] = useState(
-    new Array(selfTestData.length).fill(null),
+    new Array(array.length).fill(null),
   );
 
   const checkeBoxRefs = useRef<HTMLDivElement[]>([]);
@@ -28,8 +31,8 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
       const unCheckedBoxIndex = testTotal.indexOf(null);
 
       api.info({
-        message: `${unCheckedBoxIndex + 1}번이 체크되지 않았습니다.`,
-        description: '비어있는 항목을 체크해주세요.',
+        message: `(${unCheckedBoxIndex + 1}) ${t('message.not_checked')}`,
+        description: t('message.not_checked_description'),
         placement: 'bottomRight',
         closeIcon: true,
         icon: <CloseCircleFilled style={{ color: 'red' }} />,
@@ -69,24 +72,21 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
     <section>
       <div>
         <h1 style={{ fontWeight: 'bold', fontSize: '20px', margin: '20px 0' }}>
-          나의 사상체질 알아보기
+          {t('self_test.title')}
         </h1>
-        <p style={{ wordBreak: 'keep-all' }}>
-          본 설문은 당신의 사상체질을 정확히 알아보기 위한 질문으로 실제
-          한의사의 진단과 차이가 날 수 있습니다.
-        </p>
+        <p style={{ wordBreak: 'keep-all' }}>{t('self_test.notice')}</p>
       </div>
 
-      {selfTestData.map((el, index) => {
+      {array.map((el, questionIndex) => {
         return (
           <div
-            key={el.id}
+            key={questionIndex}
             style={{
               marginTop: '25px',
               display: 'flex',
               flexDirection: 'column',
             }}
-            ref={(el) => (checkeBoxRefs.current[index] = el!)}
+            ref={(ref) => (checkeBoxRefs.current[questionIndex] = ref!)}
           >
             <h3
               style={{
@@ -96,20 +96,30 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
                 fontSize: '17px',
               }}
             >
-              {`${index + 1}. ${el.title}`}
+              {`${questionIndex + 1}. ${t(
+                `self_test.question_${questionIndex + 1}`,
+              )}`}
             </h3>
 
             <Radio.Group
               size="large"
-              onChange={(e) => onChange(e.target.value, index)}
+              onChange={(e) => onChange(e.target.value, questionIndex)}
               // value={value}
               style={{ paddingLeft: '5px' }}
             >
               <Space direction="vertical">
-                {el.options.map((option, index) => {
+                {optionArray.map((option, choiceIndex) => {
                   return (
-                    <Radio value={index} style={{ fontSize: '16px' }}>
-                      {option}
+                    <Radio
+                      key={choiceIndex}
+                      value={choiceIndex}
+                      style={{ fontSize: '16px' }}
+                    >
+                      {t(
+                        `self_test.question_${questionIndex + 1}_choice_${
+                          choiceIndex + 1
+                        }`,
+                      )}
                     </Radio>
                   );
                 })}
@@ -119,7 +129,9 @@ const SelfTestSurveyPage = ({ setTestPageVisible }) => {
         );
       })}
       <section style={{ display: 'flex', justifyContent: 'center' }}>
-        <GreenButton onClick={answerResult}>결과보기</GreenButton>
+        <GreenButton onClick={answerResult}>
+          {t('self_test.submit')}
+        </GreenButton>
       </section>
       {contextHolder}
     </section>

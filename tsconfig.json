@@ -20,6 +20,6 @@
     "allowImportingTsExtensions": true,
     "types": ["vite/client"]
   },
-  "include": ["**/*.tsx"],
+  "include": ["**/*.tsx", "src/constant/selfTestData.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

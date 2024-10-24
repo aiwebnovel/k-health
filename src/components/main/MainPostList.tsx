@@ -1,30 +1,32 @@
 import { Button, Flex } from 'antd';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import shortid from 'shortid';
 
 const MainPostList = () => {
+  const { t } = useTranslation();
   const postButtonList = [
     {
       id: shortid.generate(),
-      title: '체질별 신체적 특성 이해하기',
+      title: t('understanding_physical_feature'),
       backgroundColor: '#A2EEBD',
       link: '/post/physical',
     },
     {
       id: shortid.generate(),
-      title: '체질별 성격적 특징 이해하기',
+      title: t('understanding_personality_feature'),
       backgroundColor: '#7CD3EA',
       link: '/post/personality',
     },
     {
       id: shortid.generate(),
-      title: '체칠별 건강사항 이해하기',
+      title: t('understanding_health_feature'),
       backgroundColor: '#F6F7C5',
       link: '/post/health',
     },
     {
       id: shortid.generate(),
-      title: '체질별 음식 이해하기',
+      title: t('understanding_food_feature'),
       backgroundColor: '#F6D6D5',
       link: '/post/food',
     },
@@ -56,7 +58,7 @@ const MainPostList = () => {
                 {el.title}
               </span>
               <Button style={{ borderRadius: '20px' }}>
-                <Link to={el.link}>바로가기</Link>
+                <Link to={el.link}>{t('go_now')}</Link>
               </Button>
             </button>
           );

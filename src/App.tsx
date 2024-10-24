@@ -14,6 +14,7 @@ import PostDetail from './pages/PostDetail/PostDetail';
 import AdminLogin from './pages/AdminLogin/AdminLogin';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
+import './language/i18n';
 
 function App() {
   useEffect(() => {

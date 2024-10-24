@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
-import { selfTestResultData } from '../../constant/selfTestData';
 import { useSelfTestKeyStore } from '../../store';
 import { GreenButton } from '../../styles/commonStyles';
+import { useTranslation } from 'react-i18next';
+import { selfTestResultData } from '../../constant/selfTestData';
 
 const SelfTestResult = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const selfTestResultKey = useSelfTestKeyStore(
     (state) => state.selfTestResultKey,
@@ -21,7 +23,7 @@ const SelfTestResult = () => {
           padding: '10px',
         }}
       >
-        진단 결과
+        {t('self_test.result')}
       </h1>
       <img
         src={selfTestResultData[selfTestResultKey].imageSrc}
@@ -36,15 +38,18 @@ const SelfTestResult = () => {
             fontWeight: 'bold',
             margin: '20px 0',
           }}
-        >{`당신은 ${selfTestResultData[selfTestResultKey].title} 입니다.`}</h2>
+        >{`${t('self_test_result.you')} ${t(
+          selfTestResultData[selfTestResultKey].title,
+        )} ${t('self_test_result.are')}`}</h2>
         <span
           style={{ fontWeight: 'bold', marginBottom: '10px', display: 'block' }}
         >
-          {selfTestResultData[selfTestResultKey].title}은...
+          {t(selfTestResultData[selfTestResultKey].title)}
+          {t('self_test_result.is')}
         </span>
-        <p>{selfTestResultData[selfTestResultKey].description0}</p>
+        <p>{t(selfTestResultData[selfTestResultKey].description0)}</p>
         <br />
-        <p>{selfTestResultData[selfTestResultKey].description1}</p>
+        <p>{t(selfTestResultData[selfTestResultKey].description1)}</p>
       </article>
       <div
         style={{
@@ -54,9 +59,11 @@ const SelfTestResult = () => {
       >
         <GreenButton
           onClick={() => {
-            navigate('/');
+            navigate('/post/physical');
           }}
-        >{`${selfTestResultData[selfTestResultKey].title} 정보 보기`}</GreenButton>
+        >{`${t(selfTestResultData[selfTestResultKey].title)} ${t(
+          'self_test_result.view_information',
+        )}`}</GreenButton>
       </div>
     </section>
   );

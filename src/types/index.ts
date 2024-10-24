@@ -10,6 +10,11 @@ export type MyProfileResultTypes = {
   updateMyProfile: (profile: User | null) => void;
 };
 
+export type CurrentLanguageTypes = {
+  currentLanguage: 'English' | '한국어';
+  updateCurrentLanguage: (lng: 'English' | '한국어') => void;
+};
+
 export type LinkBoardTypes = {
   id: number;
   title: string;

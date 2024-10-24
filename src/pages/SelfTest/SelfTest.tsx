@@ -2,8 +2,10 @@ import { useState } from 'react';
 import SelfTestSurveyPage from './SelfTestSurveyPage';
 import SelfTestResult from './SelfTestResult';
 import { GreenButton } from '../../styles/commonStyles';
+import { useTranslation } from 'react-i18next';
 
 const SelfTest = () => {
+  const { t } = useTranslation();
   const [testPageVisible, setTestPageVisible] = useState([true, false, false]);
 
   return (
@@ -22,16 +24,17 @@ const SelfTest = () => {
               margin: '80px 0 40px 0',
             }}
           >
-            사상체질 설문 테스트
+            {t('self_test.intro_0')}
           </h1>
           <p style={{ fontSize: '18px', fontWeight: 'bold', margin: '25px 0' }}>
-            사상체질 테스트는 총 23개의
+            {t('self_test.intro_1')}
             <br />
-            문항으로 이루어져 있습니다.
+            {t('self_test.intro_2')}
           </p>
           <p>
-            빠짐 없이 문항에 체크를 해주세요 !
-            <br /> 본인의 체질을 제대로 파악할 수 있습니다.
+            {t('self_test.intro_3')}
+            <br />
+            {t('self_test.intro_4')}
           </p>
 
           <GreenButton
@@ -39,7 +42,7 @@ const SelfTest = () => {
               setTestPageVisible([false, true, false]);
             }}
           >
-            시작하기
+            {t('self_test.start')}
           </GreenButton>
         </section>
       )}
@@ -47,7 +50,6 @@ const SelfTest = () => {
         <SelfTestSurveyPage setTestPageVisible={setTestPageVisible} />
       )}
       {testPageVisible[2] && <SelfTestResult />}
-      {/* <SelfTestResult /> */}
     </div>
   );
 };

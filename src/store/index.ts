@@ -1,6 +1,9 @@
 import { create } from 'zustand';
-import { MyProfileResultTypes, SelfTestResultTypes } from '../types/index.ts';
-import { User } from '@firebase/auth';
+import {
+  CurrentLanguageTypes,
+  MyProfileResultTypes,
+  SelfTestResultTypes,
+} from '../types/index.ts';
 
 export const useSelfTestKeyStore = create<SelfTestResultTypes>((set) => ({
   selfTestResultKey: '0',
@@ -10,4 +13,10 @@ export const useSelfTestKeyStore = create<SelfTestResultTypes>((set) => ({
 export const myProfileStore = create<MyProfileResultTypes>((set) => ({
   myProfile: null,
   updateMyProfile: (profile) => set({ myProfile: profile }),
+}));
+
+export const currentLanguageStore = create<CurrentLanguageTypes>((set) => ({
+  currentLanguage:
+    localStorage.getItem('khealth_language') === 'en' ? 'English' : '한국어',
+  updateCurrentLanguage: (lng) => set({ currentLanguage: lng }),
 }));

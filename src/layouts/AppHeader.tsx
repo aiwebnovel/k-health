@@ -2,11 +2,18 @@ import { Button, Menu } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import { Link, NavLink } from 'react-router-dom';
 import shortid from 'shortid';
-import { myProfileStore } from '../store/index';
+import { currentLanguageStore, myProfileStore } from '../store/index';
 import { useToast } from '@chakra-ui/react';
 import { authService } from '../config/firebase';
+import { GlobalOutlined } from '@ant-design/icons';
+import { changeLanguage } from '../language/i18n';
+import { useTranslation } from 'react-i18next';
 
 const AppHeader = () => {
+  const { t } = useTranslation();
+  const { currentLanguage, updateCurrentLanguage } = currentLanguageStore(
+    (state) => state,
+  );
   const toast = useToast();
   const { myProfile, updateMyProfile } = myProfileStore((state) => state);
 
@@ -31,14 +38,36 @@ const AppHeader = () => {
   };
 
   const navigationItems = [
-    { key: shortid.generate(), label: <Link to="/self_test">체질 진단</Link> },
     {
       key: shortid.generate(),
-      label: <Link to="/link/information">체질 정보</Link>,
+      label: <Link to="/self_test">{t('constitutional_diagnosis')}</Link>,
+    },
+    {
+      key: shortid.generate(),
+      label: (
+        <Link to="/link/information">{t('constitutional_information')}</Link>
+      ),
     },
     {
       key: shortid.generate(),
       label: myProfile && <Button onClick={logout}>로그아웃</Button>,
+    },
+  ];
+
+  const languageMenu = [
+    {
+      label: `${currentLanguage}`,
+      key: 'SubMenu',
+      icon: <GlobalOutlined />,
+      children: [
+        {
+          type: 'group',
+          children: [
+            { label: '한국어', key: 'ko' },
+            { label: 'English', key: 'en' },
+          ],
+        },
+      ],
     },
   ];
 
@@ -77,6 +106,19 @@ const AppHeader = () => {
           items={navigationItems}
           style={{ flex: 1, minWidth: 0, border: 'none', fontSize: '15px' }}
         />
+        <div>
+          <Menu
+            theme="light"
+            mode="horizontal"
+            items={languageMenu}
+            style={{ border: 'none' }}
+            onClick={(e) => {
+              const language = e.key === 'en' ? 'English' : '한국어';
+              updateCurrentLanguage(language);
+              changeLanguage(e.key);
+            }}
+          />
+        </div>
       </div>
     </Header>
   );

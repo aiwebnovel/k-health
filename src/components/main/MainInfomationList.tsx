@@ -3,8 +3,10 @@ import { Button, List } from 'antd';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { LinkBoardTypes } from 'src/types';
+import { useTranslation } from 'react-i18next';
 
 const MainInfomationList = () => {
+  const { t } = useTranslation();
   const [mainLinkList, setMainLinkList] = useState<LinkBoardTypes[]>([]);
 
   useEffect(() => {
@@ -34,9 +36,11 @@ const MainInfomationList = () => {
               color: 'rgba(0, 0, 0, 0.88)',
             }}
           >
-            <span style={{ marginRight: '10px' }}>유용한 사상체질 정보들</span>{' '}
+            <span style={{ marginRight: '10px' }}>
+              {t('useful_constitutional_informations')}
+            </span>
             <Button>
-              <Link to="/link/information">전체보기</Link>
+              <Link to="/link/information">{t('view_whole')}</Link>
             </Button>
           </Link>
         }
