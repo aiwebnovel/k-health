@@ -6,6 +6,7 @@ import { marked } from 'marked';
 import { Button, Flex, Modal } from 'antd';
 import { useToast } from '@chakra-ui/react';
 import { myProfileStore } from '../../store/index';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 
 const PostDetail = () => {
   const { myProfile } = myProfileStore((state) => state);
@@ -16,8 +17,6 @@ const PostDetail = () => {
   const toast = useToast();
   const params = useParams();
   const navigate = useNavigate();
-
-  console.log(params);
 
   const showDeleteModal = () => {
     setIsDeleteModalOpen(true);
@@ -81,14 +80,26 @@ const PostDetail = () => {
         borderBottom: '1px solid rgba(5, 5, 5, 0.06)',
       }}
     >
-      {myProfile && (
-        <Flex style={{ paddingTop: '20px', justifyContent: 'flex-end' }}>
-          <Link to={`/post/${params.postPath}/write?id=${params.id}`}>
-            <Button style={{ marginRight: '10px' }}>수정</Button>
-          </Link>
-          <Button onClick={showDeleteModal}>삭제</Button>
+      {
+        <Flex style={{ paddingTop: '20px', justifyContent: 'space-between' }}>
+          <Button
+            onClick={() => {
+              console.log(params);
+              navigate(`/post/${params.postPath}`);
+            }}
+          >
+            <ArrowLeftOutlined />
+          </Button>
+          {myProfile && (
+            <div>
+              <Link to={`/post/${params.postPath}/write?id=${params.id}`}>
+                <Button style={{ marginRight: '10px' }}>수정</Button>
+              </Link>
+              <Button onClick={showDeleteModal}>삭제</Button>
+            </div>
+          )}
         </Flex>
-      )}
+      }
 
       <div
         style={{
